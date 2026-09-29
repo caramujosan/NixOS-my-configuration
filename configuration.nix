@@ -142,6 +142,8 @@
     vim
     vscode
     keepassxc
+    gedit
+    google-chrome
     ];
   };
 
