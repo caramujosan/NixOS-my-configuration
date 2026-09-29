@@ -5,24 +5,36 @@
 { config, pkgs, ... }:
 
 {
+  # ---------------------------------------------------------------------------
+  # 1. IMPORTS AND HARDWARE
+  # ---------------------------------------------------------------------------
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Imports the file generated during hardware detection (disk UUIDs and kernel modules).
       ./hardware-configuration.nix
     ];
 
+  # ---------------------------------------------------------------------------
+  # 2. BOOTLOADER AND File Systems
+  # ---------------------------------------------------------------------------
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
+
+  # Allows the installer to add the NixOS entry to the emulated motherboard's NVRAM.
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # ---------------------------------------------------------------------------
+  # 3. NETWORK AND LOCALE
+  # ---------------------------------------------------------------------------
   networking.hostName = "nixos"; # Define your hostname.
   networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+
+  # Enable networking
+  networking.networkmanager.enable = true;
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable networking
-  networking.networkmanager.enable = true;
 
   # Set your time zone.
   time.timeZone = "America/Sao_Paulo";
