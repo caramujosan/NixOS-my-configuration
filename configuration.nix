@@ -54,6 +54,9 @@
     LC_TIME = "pt_BR.UTF-8";
   };
 
+  # ---------------------------------------------------------------------------
+  # 4. GRAPHICAL ENVIRONMENT AND DISPLAY MANAGER
+  # ---------------------------------------------------------------------------
   # Enable the GNOME Desktop Environment.
   services.displayManager.gdm.enable = true;
   services.desktopManager.gnome.enable = true;
@@ -67,9 +70,9 @@
   # Configure console keymap
   console.keyMap = "br-abnt2";
 
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
+  # ---------------------------------------------------------------------------
+  # 6. AUDIO SUBSYSTEM (PIPEWIRE)
+  # ---------------------------------------------------------------------------
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -82,21 +85,29 @@
     # jack.enable = true;
   };
 
+  # ---------------------------------------------------------------------------
+  # 7. OTHER SERVICES
+  # ---------------------------------------------------------------------------
+  # Enable CUPS to print documents.
+  services.printing.enable = true;
+
+  # List services that you want to enable:
+
+  # Enable the OpenSSH daemon.
+  # services.openssh.enable = true;
+
+  # Open ports in the firewall.
+  # networking.firewall.allowedTCPPorts = [ ... ];
+  # networking.firewall.allowedUDPPorts = [ ... ];
+  # Or disable the firewall altogether.
+  # networking.firewall.enable = false;
+
   # Enable touchpad support (enabled default in most desktopManager).
   # services.libinput.enable = true;
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users."caramujosan" = {
-    isNormalUser = true;
-    description = "caramujosan";
-    extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-    #  thunderbird
-    vim
-    keepassxc
-    ];
-  };
-
+  # ---------------------------------------------------------------------------
+  # 7. SYSTEM PACKAGES AND SHELL HOOKS
+  # ---------------------------------------------------------------------------
   # Install firefox.
   programs.firefox.enable = true;
 
@@ -118,16 +129,22 @@
   #   enableSSHSupport = true;
   # };
 
-  # List services that you want to enable:
+  # ---------------------------------------------------------------------------
+  # 8. USER MANAGEMENT
+  # ---------------------------------------------------------------------------
+  # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.users."caramujosan" = {
+    isNormalUser = true;
+    description = "caramujosan";
+    extraGroups = [ "networkmanager" "wheel" ];
+    packages = with pkgs; [
+    #  thunderbird
+    vim
+    vscode
+    keepassxc
+    ];
+  };
 
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
