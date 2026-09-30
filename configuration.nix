@@ -129,6 +129,8 @@
   #   enableSSHSupport = true;
   # };
 
+  
+
   # ---------------------------------------------------------------------------
   # 8. USER MANAGEMENT
   # ---------------------------------------------------------------------------
@@ -139,11 +141,16 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
     #  thunderbird
+    fastfetch       # System information display (successor to neofetch).
+    gedit
+    git             # Version control.
+    google-chrome
+    htop            # Interactive process monitor.
+    keepassxc
     vim
     vscode
-    keepassxc
-    gedit
-    google-chrome
+    direnv          # Shell extension to load environment variables per directory. 
+    nix-direnv      # Optimized integration between direnv and Nix to avoid unwanted garbage collection.
     ];
   };
 
