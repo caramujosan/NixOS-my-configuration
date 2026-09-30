@@ -16,11 +16,19 @@
     google-chrome
     htop            # Interactive process monitor.
     keepassxc
-    vim
     vscode
     direnv          # Shell extension to load environment variables per directory. 
     nix-direnv      # Optimized integration between direnv and Nix to avoid unwanted garbage collection.
   ];
+
+  # Enables integrated direnv and nix-direnv
+	  programs.direnv = {
+	    enable = true;
+	    nix-direnv.enable = true; # <-- Enables instant caching!
+	    
+	    # Optional: enables automatic integration with your shell (Bash)
+	    enableBashIntegration = true; 
+	};
 
   # Bash Configuration (~/.bashrc)
   programs.bash = {
@@ -39,6 +47,7 @@
 
   programs.vim = {
   enable = true;
+  plugins = with pkgs.vimPlugins; [ gruvbox ];
   extraConfig = ''
     set number
     set relativenumber
