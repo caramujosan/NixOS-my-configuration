@@ -157,6 +157,16 @@
     ];
   };
 
+  # Git declarative management (~/.gitconfig)
+	programs.git = {
+	  enable = true;
+	  config = {
+	    user.name = "Seu Nome";
+	    user.email = "seu-email@exemplo.com";
+      init.defaultBranch = "main";
+    };
+	};
+
   # ---------------------------------------------------------------------------
   # 9. AUTOMATIC STORE MAINTENANCE
   # ---------------------------------------------------------------------------
