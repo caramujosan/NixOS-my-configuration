@@ -130,9 +130,9 @@
   # };
 
   # Injects the direnv initialization script into the interactive Bash session.
-  programs.bash.interactiveShellInit = ''
-    eval "$(direnv hook bash)"
-  '';
+  # programs.bash.interactiveShellInit = ''
+  #   eval "$(direnv hook bash)"
+  # '';
 
   # ---------------------------------------------------------------------------
   # 8. USER MANAGEMENT
@@ -144,28 +144,8 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
     #  thunderbird
-    fastfetch       # System information display (successor to neofetch).
-    gedit
-    git             # Version control.
-    google-chrome
-    htop            # Interactive process monitor.
-    keepassxc
-    vim
-    vscode
-    direnv          # Shell extension to load environment variables per directory. 
-    nix-direnv      # Optimized integration between direnv and Nix to avoid unwanted garbage collection.
     ];
   };
-
-  # Git declarative management (~/.gitconfig)
-	programs.git = {
-	  enable = true;
-	  config = {
-	    user.name = "Seu Nome";
-	    user.email = "seu-email@exemplo.com";
-      init.defaultBranch = "main";
-    };
-	};
 
   # ---------------------------------------------------------------------------
   # 9. AUTOMATIC STORE MAINTENANCE
