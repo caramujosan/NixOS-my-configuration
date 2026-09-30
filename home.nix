@@ -134,7 +134,35 @@
 
   programs.gnome-terminal = {
     enable = true;
-
+    profile."01a0f424-2bc4-761a-b3c0-d4e1dc8713c4" = {
+      default = true;
+      loginShell = false;
+      visibleName = "lambda lambda";
+      showScrollbar = true;
+      scrollbackLines = 10000;
+      scrollOnOutput = true;
+      font = "monospace 12";
+      cursorBlinkMode = "on";
+      cursorShape = "ibeam";
+      customCommand = null;
+      audibleBell = false;
+      allowBold = true;
+      boldIsBright = true;
+      transparencyPercent = 60;
+      colors = {
+        backgroundColor = "#000000";
+        foregroundColor = "#00ff05";
+        boldColor = "#ffac00";
+        cursor = {
+          background = "#00ff05";
+          foreground = "#00ff05";
+        };
+        highlight = {
+          background = "#b20014";
+          foreground = "#00e0ff";
+        };
+      };
+    };
   };
 
 
