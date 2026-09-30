@@ -5,8 +5,10 @@
   home.username = "caramujosan";
   home.homeDirectory = "/home/caramujosan";
 
+
   # Keep this value with the initial version in which you installed Home Manager
   home.stateVersion = "26.05";
+
 
   # Packages installed only for user (not global, not system-wide)
   home.packages = with pkgs; [
@@ -21,6 +23,7 @@
     nix-direnv      # Optimized integration between direnv and Nix to avoid unwanted garbage collection.
   ];
 
+
   # Enables integrated direnv and nix-direnv
   programs.direnv = {
     enable = true;
@@ -29,6 +32,18 @@
     # Optional: enables automatic integration with your shell (Bash)
     enableBashIntegration = true; 
   };
+
+
+ # Git declarative management (~/.gitconfig)
+  programs.git = {
+    enable = true;
+    settings = {
+      init.defaultBranch = "main";
+      user.name = "caramujosan";
+      user.email = "gustavocjorge11@yahoo.com.br";
+    };   
+  };
+
 
   # Bash Configuration (~/.bashrc)
   programs.bash = {
@@ -40,6 +55,7 @@
       export PS1="\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ "
     '';
   };
+
 
   programs.vim = {
     enable = true;
@@ -112,16 +128,6 @@
 
       syntax on
     '';
-  };
-
-  # Git declarative management (~/.gitconfig)
-  programs.git = {
-    enable = true;
-    userName = "caramujosan";
-    userEmail = "gustavocjorge11@yahoo.com.br";
-    extraConfig = {
-      init.defaultBranch = "main";
-    };
   };
 
 
