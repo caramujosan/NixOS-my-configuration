@@ -18,6 +18,7 @@
 	  nixosConfigurations = {
 	    nixos = nixpkgs.lib.nixosSystem {
 	      system = "x86_64-linux";
+        specialArgs = { inherit inputs; };  # Allows installing from unstable repo by passing the inputs variable
 		    modules = [
 		      ./hardware-configuration.nix
 		      ./configuration.nix
