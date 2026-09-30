@@ -84,7 +84,7 @@
       nnoremap # #zz
       nnoremap g* g*zz
       nnoremap g# g#zz
-      nnoremap cs :let @/=\'\'<cr>
+      nnoremap cs :let @/=""<cr>
       
       " Enable the ruler (shows line and column in the bottom right corner)
       set ruler
