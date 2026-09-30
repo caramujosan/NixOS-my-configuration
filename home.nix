@@ -15,6 +15,7 @@
     fastfetch       # System information display (successor to neofetch).
     gedit
     git             # Version control.
+    gnome-terminal
     google-chrome
     htop            # Interactive process monitor.
     keepassxc
@@ -128,6 +129,12 @@
 
       syntax on
     '';
+  };
+
+
+  programs.gnome-terminal = {
+    enable = true;
+
   };
 
 
