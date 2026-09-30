@@ -28,7 +28,7 @@
     # open source Nvidia driver (Open Kernel Modules) works fine.
     open = true;
     
-    # Garante the most recent stable package.
+    # Ensure the most recent stable package.
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
