@@ -54,11 +54,11 @@
   };
 
   # Git declarative management (~/.gitconfig)
-   programs.git = {
+  programs.git = {
     enable = true;
-    config = {
-    user.name = "caramujosan";
-    user.email = "gustavocjorge11@yahoo.com.br";
+    userName = "caramujosan";
+    userEmail = "gustavocjorge11@yahoo.com.br";
+    extraConfig = {
       init.defaultBranch = "main";
     };
   };
