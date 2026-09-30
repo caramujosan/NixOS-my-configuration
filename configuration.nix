@@ -14,6 +14,24 @@
       ./hardware-configuration.nix
     ];
 
+  # Configuration for Nvidia with Gnome
+  # Load proprietary video drivers
+  services.xserver.videoDrivers = [ "nvidia" ];
+  hardware.nvidia = {
+    # 1. Mandatory for Wayland/Gnome to work correctly.
+    modesetting.enable = true;
+
+    # 2. Fix scramble pixels. Force saving all VRAM on SSD/RAM before sleep.
+    powerManagement.enable = true;
+
+    # Opctional. Deactivate to use closed source traditional driver, BUT
+    # open source Nvidia driver (Open Kernel Modules) works fine.
+    open = true;
+    
+    # Garante the most recent stable package.
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+  };
+
   # ---------------------------------------------------------------------------
   # 2. BOOTLOADER AND File Systems
   # ---------------------------------------------------------------------------
@@ -22,6 +40,10 @@
 
   # Allows the installer to add the NixOS entry to the emulated motherboard's NVRAM.
   boot.loader.efi.canTouchEfiVariables = true;
+
+  # Deactivate Nouveau video driver to avoid conflict with Nvidia AND
+  # ensure Nvidia video driver memory management
+  boot.kernelParams = [ "modprobe.blacklist=nouveau" "nvidia.NVreg_PreserveVideoMemoryAllocations=1" ];
 
   # ---------------------------------------------------------------------------
   # 3. NETWORK AND LOCALE
