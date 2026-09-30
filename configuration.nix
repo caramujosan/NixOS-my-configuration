@@ -157,6 +157,20 @@
     ];
   };
 
+  # ---------------------------------------------------------------------------
+  # 9. AUTOMATIC STORE MAINTENANCE
+  # ---------------------------------------------------------------------------
+  # Replaces identical files in /nix/store with hard links to save inodes and disk space. 
+  nix.settings.auto-optimise-store = true; 
+
+  # Automatic Nix garbage collection. 
+  nix.gc = {
+  automatic = true; # Enables the systemd timer for cleanup. 
+  dates = "weekly"; # Runs weekly. 
+  # options = "--delete-older-than -d"; # Removes all store paths not referenced.
+  options = "--delete-older-than 7d"; # Removes store paths not referenced for more than 7 days.
+  };
+
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
