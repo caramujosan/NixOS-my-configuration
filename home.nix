@@ -22,13 +22,13 @@
   ];
 
   # Enables integrated direnv and nix-direnv
-	  programs.direnv = {
-	    enable = true;
-	    nix-direnv.enable = true; # <-- Enables instant caching!
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true; # <-- Enables instant caching!
 	    
-	    # Optional: enables automatic integration with your shell (Bash)
-	    enableBashIntegration = true; 
-	};
+    # Optional: enables automatic integration with your shell (Bash)
+    enableBashIntegration = true; 
+  };
 
   # Bash Configuration (~/.bashrc)
   programs.bash = {
@@ -84,7 +84,7 @@
       nnoremap # #zz
       nnoremap g* g*zz
       nnoremap g# g#zz
-      nnoremap cs :let @/=''<cr>
+      nnoremap cs :let @/=\'\'<cr>
       
       " Enable the ruler (shows line and column in the bottom right corner)
       set ruler
@@ -128,6 +128,5 @@
   # Allows the Home Manager to manage itself
   programs.home-manager.enable = true;
 }
-
 
 
