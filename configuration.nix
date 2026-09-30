@@ -171,6 +171,12 @@
   options = "--delete-older-than 7d"; # Removes store paths not referenced for more than 7 days.
   };
 
+  # ---------------------------------------------------------------------------
+  # 10. ACTIVATE NIX COMMANDS AND FLAKES
+  # ---------------------------------------------------------------------------
+  # Enables the new unified `nix` executable and the Flakes architecture.
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
