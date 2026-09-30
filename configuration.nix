@@ -129,7 +129,10 @@
   #   enableSSHSupport = true;
   # };
 
-  
+  # Injects the direnv initialization script into the interactive Bash session.
+  programs.bash.interactiveShellInit = ''
+    eval "$(direnv hook bash)"
+  '';
 
   # ---------------------------------------------------------------------------
   # 8. USER MANAGEMENT
