@@ -49,12 +49,7 @@
   # Bash Configuration (~/.bashrc)
   programs.bash = {
     enable = true;
-    shellAliases = {
-      ll = "ls -la";
-	  };
-    initExtra = ''
-      export PS1="\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ "
-    '';
+    initExtra = builtins.readFile ./dotfiles/bashrc_mine;
   };
 
 
