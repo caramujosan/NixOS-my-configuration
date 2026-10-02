@@ -41,7 +41,10 @@
       init.defaultBranch = "main";
       user.name = "caramujosan";
       user.email = "gustavocjorge11@yahoo.com.br";
-    };   
+      alias = {
+        lg = "log --oneline --graph --decorate";
+      };
+    };
   };
 
 
