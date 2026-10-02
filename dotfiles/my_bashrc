@@ -1,0 +1,132 @@
+# ~/.bashrc: executed by bash(1) for non-login shells.
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# for examples
+
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
+# don't put duplicate lines or lines starting with space in the history.
+# See bash(1) for more options
+HISTCONTROL=ignoreboth
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=500
+HISTFILESIZE=1000
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# If set, the pattern "**" used in a pathname expansion context will
+# match all files and zero or more directories and subdirectories.
+#shopt -s globstar
+
+# set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in
+    xterm-color|*-256color) color_prompt=yes;;
+esac
+
+
+# --- Configuração do Prompt Personalizado ---
+
+# 1. Definição de Cores em variáveis
+C_RED="\[\e[0;31m\]"
+C_BLUE="\[\e[1;94m\]"      # Azul Claro Brilhante
+C_GREEN="\[\e[1;92m\]"     # Verde Claro Brilhante
+C_YELLOW="\[\e[1;33m\]"
+C_CYAN="\[\e[1;96m\]"
+C_WHITE="\[\e[1;37m\]"
+C_RESET="\[\e[0m\]"
+
+# 2. Símbolos Unicode
+S_TL="┌"   # Top Left
+S_HL="─"   # Horizontal Line
+S_BL="└"   # Bottom Left
+S_ARR="╼"  # Arrow
+S_ERR="✗"  # Error
+
+# 3. Função que constrói o prompt
+function build_prompt() {
+    # Salva o código de saída do último comando (0 = sucesso, >0 = erro)
+    local exit_code=$? 
+    
+    
+    # Imprime o título direto no emulador do terminal, sem misturar com o PS1
+    case "$TERM" in
+        xterm*|rxvt*)
+            # echo -ne envia a sequência ANSI invisível que atualiza a aba
+            echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD/#$HOME/\~}\007"
+            ;;
+    esac
+    # -----------------------------
+
+
+    local c_lines
+    local user_host
+    local TERM_SYMBOL
+    local TERM_PATH
+    
+    
+    # Lógica condicional: Diferenciar Root do Usuário Comum
+    if [[ ${EUID} == 0 ]]; then
+        c_lines="${C_RED}"
+        # Root: Informações com a cor padrão do terminal
+        user_host="${C_RESET}\u@\h" 
+        # Cor do símbolo do root do terminal (#)
+        TERM_SYMBOL="${C_RESET}"
+        # Path inteiro quando root
+        TERM_PATH="\w"
+    else
+        c_lines="${C_BLUE}"
+        # Usuário: Usuário (padrão), @ (amarelo), Host (ciano)
+        user_host="${C_CYAN}\u${C_YELLOW}@${C_CYAN}\h"
+        # Cor do símbolo do usuário do terminal ($)
+        TERM_SYMBOL="${C_YELLOW}"
+        # Path relativo quando usuário
+        TERM_PATH="\W"
+    fi
+
+    # Lógica condicional: Se o último comando deu erro, adiciona o [✗] vermelho
+    local err_block=""
+    if [[ $exit_code != 0 ]]; then
+        err_block="[${C_RED}${S_ERR}${c_lines}]${S_HL}"
+    fi
+
+    # 4. Montagem final da variável PS1
+    PS1=""
+    PS1+="${c_lines}${S_TL}${S_HL}${err_block}[${user_host}${c_lines}]${S_HL}"
+    PS1+="[${C_GREEN}${TERM_PATH}${c_lines}]\n"
+    PS1+="${c_lines}${S_BL}${S_HL}${S_HL}${S_ARR} ${TERM_SYMBOL}\\$ ${C_RESET}"
+}
+
+# 5. Informa ao Bash para executar nossa função
+PROMPT_COMMAND=build_prompt
+
+# --- Fim da Configuração do Prompt Personalizado ---
+
+
+# colored GCC warnings and errors
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+# some more ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+# Add an "alert" alias for long running commands.  Use like so:
+#   sleep 10; alert
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+
+# Meus alias.
+alias rm='rm -iv'
+alias cp='cp -iv'
+alias mv='mv -iv'
+
+####

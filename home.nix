@@ -51,7 +51,7 @@
   # Bash Configuration (~/.bashrc)
   programs.bash = {
     enable = true;
-    initExtra = builtins.readFile ./dotfiles/bashrc_mine;
+    initExtra = builtins.readFile ./dotfiles/my_bashrc;
   };
 
 
