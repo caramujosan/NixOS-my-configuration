@@ -20,4 +20,6 @@ Home Manager in NixOS System Module Mode.
 ├── configuration.nix          # Global configuration and system services
 ├── hardware-configuration.nix # Kernel modules and mount points
 ├── home.nix                   # Declarative user management (Home Manager)
-└── bashrc_mine                # Bash startup script (prompt and aliases)
+└── dotfiles
+    ├── my_bashrc                # Bash startup script (prompt and aliases)
+    └── my_vimrc
