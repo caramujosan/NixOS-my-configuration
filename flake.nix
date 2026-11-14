@@ -1,41 +1,57 @@
 {
-	description = "NixOS configuration with Flakes and Home Manager";
+  description = "NixOS configuration using Flakes and Home Manager";
 
-	inputs = {
-	  # Official NixOS repository (unstable channel, or switch to nixos-26.05)
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
-	  nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+  inputs = {
+    # Official NixOS repository (unstable channel)
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
-	  # Repositorio do Home Manager
-	  home-manager = {
-	    url = "github:nix-community/home-manager/release-26.05";
-	    # Ensures that Home Manager uses the same nixpkgs version as the system
-	    inputs.nixpkgs.follows = "nixpkgs";
-	  };
-	};
+    # Home Manager repository
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nix-flatpak.url = "github:gmodena/nix-flatpak";
+  };
 
-	outputs = { self, nixpkgs, home-manager, ... }@inputs: {
-	  nixosConfigurations = {
-	    nixos = nixpkgs.lib.nixosSystem {
-	      system = "x86_64-linux";
-        specialArgs = { inherit inputs; };  # Allows installing from unstable repo by passing the inputs variable
-		    modules = [
-		      ./hardware-configuration.nix
-		      ./configuration.nix
+  outputs = { self, nixpkgs, home-manager, nix-flatpak, ... }@inputs:
+    let
+      # 1. Defined correctly within the 'let' scope
+      system = "x86_64-linux";
+      username = "caramujosan";
 
-	   	    # Home Manager Module Integration
-		      home-manager.nixosModules.home-manager {
-		        home-manager.useGlobalPkgs = true;
-		        home-manager.useUserPackages = true;
+      # 2. Adjusted helper function
+      mkSystem = hostName: nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hardware-configuration.nix
+          ./configuration.nix
+          
+          # Global configuration for free/non-free packages
+          {
+            nixpkgs.config.allowUnfree = true;
+          }
 
-  	        # Maps the settings to your specific user
-	          home-manager.users.caramujosan = import ./home.nix;
+          # Home Manager module integration
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.sharedModules = [
+              nix-flatpak.homeManagerModules.nix-flatpak
+            ];
 
-		        # Optional: pass extra arguments (such as inputs) to home.nix if necessary
-		        # home-manager.extraSpecialArgs = { inherit inputs; };
-		      }
-		    ];
-	    };
-	  };
-	};
+           # Import the home.nix file for the user
+            home-manager.users.${username} = import ./home.nix;
+          }
+        ];
+      };
+    in {
+      # 3. Correctly maps hosts for nixos-rebuild
+      nixosConfigurations = {
+        # To run nixos-rebuild --flake .#nixos
+        nixos = mkSystem "nixos";
+      };
+    };
 }

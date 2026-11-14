@@ -1,3 +1,5 @@
+## 2. Configuration.nix
+
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
@@ -28,8 +30,16 @@
     # open source Nvidia driver (Open Kernel Modules) works fine.
     open = true;
     
+    nvidiaSettings = true;
+    
     # Ensure the most recent stable package.
     package = config.boot.kernelPackages.nvidiaPackages.stable;
+  };
+  
+  zramSwap = {
+    enable = true;
+    algorithm = "zstd";
+    memoryPercent = 50;
   };
 
   # ---------------------------------------------------------------------------
@@ -110,6 +120,7 @@
   # ---------------------------------------------------------------------------
   # 7. OTHER SERVICES
   # ---------------------------------------------------------------------------
+  # CUPS
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
@@ -126,15 +137,28 @@
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.libinput.enable = true;
+  
+  # PLOCATE
+  # Properly enable the location service and fix "updatedb: Unknown group plocate" error
+  # NixOS automatically create the plocate group, configure the permissions, and schedule database updates.
+  # To force database update immediately after running `nixos-rebuild switch`, manually trigger (start) the systemd service that
+  # NixOS manages for `locate`
+  services.locate = {
+    enable = true;
+    package = pkgs.plocate;
+  };
 
   # ---------------------------------------------------------------------------
   # 7. SYSTEM PACKAGES AND SHELL HOOKS
   # ---------------------------------------------------------------------------
   # Install firefox.
   programs.firefox.enable = true;
+  
+  # Enable Flatpak
+  services.flatpak.enable = true;
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
+  # Allow unfree packages (commented because already injected by flake)
+  #nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
@@ -177,10 +201,9 @@
 
   # Automatic Nix garbage collection. 
   nix.gc = {
-  automatic = true; # Enables the systemd timer for cleanup. 
-  dates = "weekly"; # Runs weekly. 
-  # options = "--delete-older-than -d"; # Removes all store paths not referenced.
-  options = "--delete-older-than 7d"; # Removes store paths not referenced for more than 7 days.
+    automatic = true; # Enables the systemd timer for cleanup. 
+    dates = "weekly"; # Runs weekly. 
+    options = "--delete-older-than 7d"; 
   };
 
   # ---------------------------------------------------------------------------
@@ -215,3 +238,8 @@
   system.stateVersion = "26.05"; # Did you read the comment?
 
 }
+
+
+---
+
+
