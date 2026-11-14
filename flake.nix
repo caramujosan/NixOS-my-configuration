@@ -3,11 +3,11 @@
 
   inputs = {
     # Official NixOS repository (unstable channel)
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
 
     # Home Manager repository
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-flatpak.url = "github:gmodena/nix-flatpak";
@@ -42,7 +42,7 @@
               nix-flatpak.homeManagerModules.nix-flatpak
             ];
 
-           # Import the home.nix file for the user
+            # Import the home.nix file for the user
             home-manager.users.${username} = import ./home.nix;
           }
         ];

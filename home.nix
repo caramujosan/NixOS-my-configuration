@@ -1,6 +1,3 @@
-## 3. Home Manager
-
-```nix
 { config, pkgs, ... }:
 
 {
@@ -164,4 +161,4 @@
   # Allows the Home Manager to manage itself
   programs.home-manager.enable = true;
 }
-```
+
