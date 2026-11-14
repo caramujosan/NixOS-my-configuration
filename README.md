@@ -23,3 +23,35 @@ Home Manager in NixOS System Module Mode.
 └── dotfiles
     ├── my_bashrc                # Bash startup script (prompt and aliases)
     └── my_vimrc
+```
+
+## 🛠️ How to Use
+
+### Checking for syntax errors
+
+```bash
+nix flake check -v
+
+```
+
+### Testing changes (without saving to bootloader)
+
+```bash
+sudo nixos-rebuild test --flake .#nixos
+
+```
+
+### Applying and saving to bootloader
+
+```bash
+sudo nixos-rebuild switch --flake .#nixos
+
+```
+
+### Updating the system (Flake inputs)
+
+```bash
+nix flake update
+sudo nixos-rebuild switch --flake .#nixos
+
+```
